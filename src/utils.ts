@@ -100,13 +100,27 @@ export async function newNote(
     fileName: string,
     location: string,
     frontMatterKey: string,
-    templatePath?: string
+    templatePath?: string,
+    extraFrontMatter?: object,
 ): Promise<[TFile, number]> {
     // `$CURSOR$` is used to set the cursor
-    let content =
-        newNoteType === 'singleLocation'
-            ? `---\n${frontMatterKey}: "${location}"\n---\n\n${CURSOR}`
-            : `---\nlocations:\n---\n\n\[${CURSOR}](geo:${location})\n`;
+    let contentFrontmatter;
+    let contentBody;
+    if (newNoteType === "singleLocation"){
+        let frontmatterKeyValues = []
+        frontmatterKeyValues.push(`${frontMatterKey}: "${location}"`)
+        console.log("adding extraFrontMatter");
+        console.log(extraFrontMatter);
+        frontmatterKeyValues.push(`gmaps_place_id: "${extraFrontMatter?.place_id}"`)
+        frontmatterKeyValues.push(`main_type: "${extraFrontMatter?.types[0]}"`)
+        contentFrontmatter = frontmatterKeyValues.join("\n");
+        contentBody = `${CURSOR}`;
+    } else{
+        contentFrontmatter = "locations:";
+        contentBody = `[${CURSOR}](geo:${location})\n`;
+    }
+    let content = `---\n${contentFrontmatter}\n---\n\n${contentBody}`;
+
     let templateContent = '';
     if (templatePath && templatePath.length > 0)
         templateContent = await app.vault.adapter.read(templatePath);

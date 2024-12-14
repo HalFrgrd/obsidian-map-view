@@ -17,6 +17,7 @@ export class GeoSearchResult {
     location: leaflet.LatLng;
     resultType: 'searchResult' | 'url' | 'existingMarker';
     existingMarker?: FileMarker;
+    googleMapsPlacesResult?: object;
 }
 
 export class GeoSearcher {
@@ -76,6 +77,7 @@ export class GeoSearcher {
                         name: result.name,
                         location: result.location,
                         resultType: 'searchResult',
+                        googleMapsPlacesResult: result.googleMapsPlacesResult
                     });
             } catch (e) {
                 console.log(
@@ -147,6 +149,7 @@ export async function googlePlacesSearch(
                     name: `${result?.name} (${result?.formatted_address})`,
                     location: geolocation,
                     resultType: 'searchResult',
+                    googleMapsPlacesResult: result
                 } as GeoSearchResult);
             }
         }
