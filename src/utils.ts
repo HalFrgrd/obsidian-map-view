@@ -101,22 +101,24 @@ export async function newNote(
     location: string,
     frontMatterKey: string,
     templatePath?: string,
-    extraFrontMatter?: object,
+    extraFrontMatter?: object
 ): Promise<[TFile, number]> {
     // `$CURSOR$` is used to set the cursor
     let contentFrontmatter;
     let contentBody;
-    if (newNoteType === "singleLocation"){
-        let frontmatterKeyValues = []
-        frontmatterKeyValues.push(`${frontMatterKey}: "${location}"`)
-        console.log("adding extraFrontMatter");
+    if (newNoteType === 'singleLocation') {
+        let frontmatterKeyValues = [];
+        frontmatterKeyValues.push(`${frontMatterKey}: "${location}"`);
+        console.log('adding extraFrontMatter');
         console.log(extraFrontMatter);
-        frontmatterKeyValues.push(`gmaps_place_id: "${extraFrontMatter?.place_id}"`)
-        frontmatterKeyValues.push(`main_type: "${extraFrontMatter?.types[0]}"`)
-        contentFrontmatter = frontmatterKeyValues.join("\n");
+        frontmatterKeyValues.push(
+            `gmaps_place_id: "${extraFrontMatter?.place_id}"`
+        );
+        frontmatterKeyValues.push(`main_type: "${extraFrontMatter?.types[0]}"`);
+        contentFrontmatter = frontmatterKeyValues.join('\n');
         contentBody = `${CURSOR}`;
-    } else{
-        contentFrontmatter = "locations:";
+    } else {
+        contentFrontmatter = 'locations:';
         contentBody = `[${CURSOR}](geo:${location})\n`;
     }
     let content = `---\n${contentFrontmatter}\n---\n\n${contentBody}`;

@@ -920,7 +920,7 @@ export default class MapViewPlugin extends Plugin {
         location: leaflet.LatLng,
         ev: MouseEvent | KeyboardEvent | null,
         query: string,
-        googleMapsPlacesResult: object,
+        googleMapsPlacesResult: object
     ) {
         const locationString = `${location.lat},${location.lng}`;
         const newFileName = utils.formatWithTemplates(
@@ -935,7 +935,7 @@ export default class MapViewPlugin extends Plugin {
             locationString,
             this.settings.frontMatterKey,
             this.settings.newNoteTemplate,
-            googleMapsPlacesResult,
+            googleMapsPlacesResult
         );
         // If there is an open map view, use it to decide how and where to open the file.
         // Otherwise, open the file from the active leaf
